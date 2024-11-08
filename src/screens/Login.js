@@ -23,7 +23,11 @@ const Login = () => {
       } else {
         setBadPassword(false);
       }
+      if(email!=='' || Password !=='') {
+        navigation.navigate('BottomNavigation')
+      }
     }
+    
   };
 
   const navigation = useNavigation();

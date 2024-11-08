@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 const newTheme = {
-  primary: 'black',
+  primary: '#016D94',
   secondary: '#9da5af',
   Extra_Bold: 'Manrope-ExtraBold',
   Bold: 'Manrope-Bold',

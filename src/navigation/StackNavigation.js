@@ -7,6 +7,11 @@ import SignUp from '../screens/SignUp';
 
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import AppIntroSliderScreen from '../screens/AppIntroSliderScreen';
+import Home from '../screens/Home';
+import BottomNavigation from './BottomNavigation';
+import PersonalDetails from '../screens/PersonalDetails';
+import WorkInformation from '../screens/WorkInformation';
+import Leave from '../screens/Leave';
 
 const StackNavigation = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -43,6 +48,26 @@ const StackNavigation = () => {
           <Stack.Screen
             name="SignUp"
             component={SignUp}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="BottomNavigation"
+            component={BottomNavigation}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="PersonalDetails"
+            component={PersonalDetails}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="WorkInformation"
+            component={WorkInformation}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Leave"
+            component={Leave}
             options={{headerShown: false}}
           />
         </>

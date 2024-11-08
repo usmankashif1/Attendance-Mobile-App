@@ -10,7 +10,7 @@ export default StyleSheet.create({
   heading: {
     fontFamily: newTheme.Bold,
     color: 'black',
-    fontSize: responsiveFontSize(2.7),
+    fontSize: 25,
   },
   subHeading: {
     fontSize: 14,
