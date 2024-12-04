@@ -1,15 +1,13 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomInputs from '../components/CustomInputs';
 import CustomButton from '../components/CustomButton';
 import newTheme from '../utils/Constants';
 import Design from '../utils/Design';
 import {useNavigation} from '@react-navigation/native';
-
+import auth from '@react-native-firebase/auth';
 const SignUp = () => {
   const navigation = useNavigation();
-
-  
 
   const [name, setName] = useState('');
   const [BadName, setBadName] = useState(false);
@@ -21,71 +19,60 @@ const SignUp = () => {
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [ConfirmBadPassword, setConfirmBadPassword] = useState(false);
   const [buttonDisabled, SetButtonDisabled] = useState(false);
-
+  const [emailCheck, setEmailCheck] = useState('');
+  const [PasswordCheck, setPasswordCheck] = useState('');
   const [getname, setgetName] = useState('');
   const [getemail, setgetEmail] = useState('');
-  
 
   const validation = () => {
-    let isValid = true;
-    SetButtonDisabled(true);
-
     if (name === '') {
       setBadName(true);
-      SetButtonDisabled(false);
-      isValid = false;
     } else {
       setBadName(false);
     }
 
     if (email === '') {
       setBadEmail(true);
-      SetButtonDisabled(false);
-      isValid = false;
+    } else if (!email.includes('@')) {
+      setBadEmail(false);
+      setEmailCheck(true);
     } else {
       setBadEmail(false);
+      setEmailCheck(false);
     }
 
     if (Password === '') {
       setBadPassword(true);
-      SetButtonDisabled(false);
-      isValid = false;
     } else {
       setBadPassword(false);
     }
 
     if (ConfirmPassword === '') {
       setConfirmBadPassword(true);
-      SetButtonDisabled(false);
-      isValid = false;
     } else {
       setConfirmBadPassword(false);
       if (ConfirmPassword !== Password) {
-        setConfirmBadPassword(true);
-        SetButtonDisabled(false);
-        isValid = false;
+        setPasswordCheck(true);
       } else {
-        setConfirmBadPassword(false);
+        setPasswordCheck(false);
       }
     }
-
-   
-
-    return isValid;
   };
 
- 
-
-  const handleSignUp = async () => {
-    if (validation()) {
-      
-      navigation.navigate('AppIntroSliders');
-    }
+  const CreateUser = () => {
+    
+      auth()
+      .createUserWithEmailAndPassword(email,Password)
+      .then(() => {
+        Alert('Successful Register')
+        navigation.navigate('Login');
+      });
   };
 
   
+
   return (
-    <View style={[Design.container,{justifyContent:'center',}]}>
+    <View style={[Design.container, {justifyContent: 'center'}]}>
       <Image
         style={styles.logo}
         source={require('../assets/images/logoColored.png')}
@@ -100,7 +87,12 @@ const SignUp = () => {
         ]}>
         Create a new Account
       </Text>
-      <View style={{marginTop: 1, alignItems: 'center',justifyContent:'space-between'}}>
+      <View
+        style={{
+          marginTop: 1,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
         <CustomInputs
           iconFamily={'FontAwesome'}
           name={'user'}
@@ -117,7 +109,7 @@ const SignUp = () => {
           borderRadius={30}
           width={'90%'}
           color={newTheme.secondary}
-          onChangeText={(txt)=>setName(txt)}
+          onChangeText={txt => setName(txt)}
           value={name}
         />
         {BadName === true && (
@@ -138,11 +130,17 @@ const SignUp = () => {
           borderRadius={30}
           width={'90%'}
           color={newTheme.secondary}
-          onChangeText={(txt)=>setEmail(txt)}
+          onChangeText={txt => setEmail(txt)}
           value={email}
         />
-        {BadEmail === true && (
-          <Text style={Design.validation}>Please Enter Email</Text>
+        {(BadEmail || emailCheck) === true && (
+          <Text style={Design.validation}>
+            {BadEmail
+              ? 'Please Enter Email'
+              : emailCheck
+              ? 'Enter Valid Email'
+              : ''}
+          </Text>
         )}
         <CustomInputs
           iconFamily={'Entypo'}
@@ -187,8 +185,14 @@ const SignUp = () => {
           onChangeText={txt => setConfirmPassword(txt)}
           value={ConfirmPassword}
         />
-        {ConfirmBadPassword === true && (
-          <Text style={Design.validation}>Passwords do not match</Text>
+        {(ConfirmBadPassword || PasswordCheck) === true && (
+          <Text style={Design.validation}>
+            {ConfirmBadPassword
+              ? 'Enter Confirm Password'
+              : PasswordCheck
+              ? "Password don't match"
+              : ''}
+          </Text>
         )}
         <CustomButton
           title={['Create an Account']}
@@ -201,9 +205,7 @@ const SignUp = () => {
           fontSize={18}
           elevation={4}
           marginTop={40}
-          // disabled={buttonDisabled}
-          onPress={validation}
-          // onPress={handleSignUp}
+          onPress={()=>{CreateUser}}
         />
       </View>
       <View
@@ -211,7 +213,7 @@ const SignUp = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop:20
+          marginTop: 20,
         }}>
         <Text style={styles.subHeading}>or already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>

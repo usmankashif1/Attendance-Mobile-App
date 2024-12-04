@@ -59,11 +59,13 @@ const CustomInputs = props => {
             borderRadius: props.borderRadius ? props.borderRadius:10,
             alignSelf: props.alignSelf ? props.alignSelf:'center',
             marginLeft:props.marginLeft,
-            placeholderTextColor:props.placeholderTextColor
+            placeholderTextColor:props.placeholderTextColor,
+            
+
 
           }}
           placeholder={props.placeholder}
-          keyboardType='default'
+          keyboardType={props.keyboardType}
           secureTextEntry={secureTextEntry}
           placeholderTextColor={props.placeholderTextColor}
           onChangeText={props.onChangeText}

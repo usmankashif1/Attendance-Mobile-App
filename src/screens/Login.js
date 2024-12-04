@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import CustomInputs from '../components/CustomInputs';
 import CustomButton from '../components/CustomButton';
@@ -11,23 +18,37 @@ const Login = () => {
   const [BadEmail, setBadEmail] = useState(false);
   const [Password, setPassword] = useState('');
   const [BadPassword, setBadPassword] = useState(false);
+  const [emailCheck, setEmailCheck] = useState('');
+  const [PasswordCondition, setPasswordCondition] = useState('');
 
   const validation = () => {
     if (email === '') {
       setBadEmail(true);
+    } else if (!email.includes('@')) {
+      setBadEmail(false);
+      setEmailCheck(true);
     } else {
       setBadEmail(false);
+      setEmailCheck(false);
 
       if (Password === '') {
         setBadPassword(true);
+      } else if (Password.length < 8) {
+        setPasswordCondition(true);
+        setBadPassword(false);
       } else {
         setBadPassword(false);
+        setPasswordCondition(false);
       }
-      if(email!=='' || Password !=='') {
-        navigation.navigate('BottomNavigation')
-      }
-    }
-    
+
+      if (email !== '' && Password !== '') {
+        navigation.navigate('BottomNavigation');
+      
+    }}
+  };
+
+  const validatePassword = input => {
+    setPassword(input);
   };
 
   const navigation = useNavigation();
@@ -65,10 +86,15 @@ const Login = () => {
           width={'90%'}
           value={email}
           onChangeText={txt => setEmail(txt)}
+          keyboardType={'email-address'}
         />
-        {BadEmail === true && (
-          <Text style={Design.validation}>Please Enter Email</Text>
+
+        {(BadEmail || emailCheck) && (
+          <Text style={Design.validation}>
+            {BadEmail ? 'Enter Email' : emailCheck ? 'Enter Valid Email' : ''}
+          </Text>
         )}
+
         <CustomInputs
           iconFamily={'Entypo'}
           iconColor={'black'}
@@ -85,12 +111,11 @@ const Login = () => {
           borderRadius={30}
           width={'90%'}
           value={Password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={validatePassword}
         />
-        {BadPassword === true && (
+        {(BadPassword || PasswordCondition) && (
           <Text style={Design.validation}>Please Enter Password</Text>
         )}
-
         <CustomButton
           title={['Login']}
           backgroundColor={'black'}
@@ -102,7 +127,7 @@ const Login = () => {
           fontSize={20}
           elevation={4}
           marginTop={20}
-          onPress={() => validation()}
+          onPress={validation} // No arguments needed here
         />
 
         <View
@@ -110,7 +135,7 @@ const Login = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop:20
+            marginTop: 20,
           }}>
           <Text style={styles.subHeading}>or Create an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
