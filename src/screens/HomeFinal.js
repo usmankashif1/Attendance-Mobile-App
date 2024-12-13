@@ -16,7 +16,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import newTheme from '../utils/Constants';
 import IconTime from '../components/IconTime';
 import CheckInOut from '../components/CheckInOut';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+const {height,width}=Dimensions.get('window');
 const HomeFinal = () => {
   const [isClicked, setIsClicked] = useState(false);
   return (
@@ -213,15 +215,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   UpperContainer: {
-    flex: 0.3,
+    // flex: 0.3,
+    height:hp(27),
     backgroundColor: '#1F389B',
   },
   personImg: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    marginVertical: 20,
-    marginHorizontal: 20,
+    height: hp(8),
+    width: wp(16),
+    borderRadius: 50,
+    marginVertical: hp(3),
+    marginHorizontal: wp(10),
   },
   bellContainer: {
     height: 35,

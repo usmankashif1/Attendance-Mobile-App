@@ -1,11 +1,21 @@
-import {Alert, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomInputs from '../components/CustomInputs';
 import CustomButton from '../components/CustomButton';
 import newTheme from '../utils/Constants';
 import Design from '../utils/Design';
 import {useNavigation} from '@react-navigation/native';
+import '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
+import firebase from '../../firebaseConfig';
+
 const SignUp = () => {
   const navigation = useNavigation();
 
@@ -55,21 +65,21 @@ const SignUp = () => {
         setPasswordCheck(true);
       } else {
         setPasswordCheck(false);
+        CreateUser();
       }
     }
   };
 
   const CreateUser = () => {
-    
-      auth()
-      .createUserWithEmailAndPassword(email,Password)
+    firebase.auth()
+      .createUserWithEmailAndPassword(email, Password)
       .then(() => {
-        Alert('Successful Register')
+        
+        Alert.alert('Successfully SignUp');
+
         navigation.navigate('Login');
       });
   };
-
-  
 
   return (
     <View style={[Design.container, {justifyContent: 'center'}]}>
@@ -205,7 +215,9 @@ const SignUp = () => {
           fontSize={18}
           elevation={4}
           marginTop={40}
-          onPress={()=>{CreateUser}}
+          onPress={() => {
+            validation();
+          }}
         />
       </View>
       <View

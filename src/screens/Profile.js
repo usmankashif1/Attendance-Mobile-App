@@ -1,4 +1,5 @@
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -20,10 +21,11 @@ import newTheme from '../utils/Constants';
 import IconTime from '../components/IconTime';
 import CheckInOut from '../components/CheckInOut';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import { firebase } from '@react-native-firebase/auth';
 
 const Profile = () => {
-  const navigation=useNavigation();
+  const navigation = useNavigation();
   const data = [
     {
       title: '3',
@@ -111,11 +113,28 @@ const Profile = () => {
         IconComponent = Feather;
     }
 
+
+const logout=()=>{
+  firebase.auth().signOut().then(()=>{
+    Alert.alert("Successfuly Logout")
+    navigation.navigate('Login')
+  })
+  
+  
+}
+
     return (
       <TouchableOpacity
         style={styles.itemContainer}
-        onPress={() => navigation.navigate(item.screen)}
-      >
+        onPress={() =>{
+          if(item.title === 'Logout'){
+            logout();
+          }
+          else if(item.screen){
+            navigation.navigate(item.screen);
+
+          }
+        }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <IconComponent name={item.iconName} size={27} color={item.color} />
 
@@ -144,7 +163,13 @@ const Profile = () => {
         <Text
           style={[
             Design.heading,
-            {color: 'white', fontSize: 17, fontFamily: newTheme.regular,marginHorizontal:15,marginTop:10},
+            {
+              color: 'white',
+              fontSize: 17,
+              fontFamily: newTheme.regular,
+              marginHorizontal: 15,
+              marginTop: 10,
+            },
           ]}>
           Profile
         </Text>
@@ -189,7 +214,7 @@ const Profile = () => {
             )}
           />
         </View>
-        <View style={[styles.midContainer, {height: '125%',borderRadius:10}]}>
+        <View style={[styles.midContainer, {height: '125%', borderRadius: 10}]}>
           <FlatList data={profile} renderItem={renderItem} />
         </View>
       </View>

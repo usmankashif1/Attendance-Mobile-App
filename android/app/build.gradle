@@ -79,7 +79,7 @@ android {
 
     namespace "com.structurelimited"
     defaultConfig {
-        applicationId "com.structurelimited"
+        applicationId "com.StructureLimited.Attendence"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -118,4 +118,4 @@ dependencies {
     }
 }
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
-
+apply plugin: 'com.google.gms.google-services'

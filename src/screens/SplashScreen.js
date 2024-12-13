@@ -1,8 +1,11 @@
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import newTheme from '../utils/Constants';
 import Design from '../utils/Design';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
+
+const {height,width}=Dimensions.get('window');
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
@@ -13,7 +16,7 @@ const SplashScreen = () => {
         <Text style={styles.Title}>
           Sturcture Lim
           <Text
-            style={{color: '#09847F', fontSize: 30, fontFamily: newTheme.Bold}}>
+            style={{color: '#09847F', fontSize: hp(4.5), fontFamily: newTheme.Bold}}>
             it
           </Text>
           ed
@@ -26,17 +29,17 @@ const SplashScreen = () => {
         <View style={styles.Bottom}>
           <Text
             style={{
-              fontSize: 16,
+              fontSize: hp(2),
               color: 'black',
               fontFamily: newTheme.Semi_Bold,
             }}>
             Manage By:{' '}
-            <Text style={[styles.Title, {fontSize: 18}]}>
+            <Text style={[styles.Title, {fontSize: hp(2.5)}]}>
               Sturcture Lim
               <Text
                 style={{
                   color: '#09847F',
-                  fontSize: 18,
+                  fontSize: hp(2.5),
                   fontFamily: newTheme.Bold,
                 }}>
                 it
@@ -45,7 +48,7 @@ const SplashScreen = () => {
             </Text>
           </Text>
           <Text
-            style={[Design.subHeading, {alignSelf: 'center', marginLeft: 10}]}>
+            style={[Design.subHeading, {alignSelf: 'center', marginLeft: 10,fontSize:hp(1.7)}]}>
             Endless Solutions
           </Text>
         </View>
@@ -63,31 +66,33 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignSelf: 'flex-end',
-    height: '25%',
-    width: '53%',
+    height: hp(26),
+    width: wp(53),
     resizeMode: 'cover',
   },
   Title: {
     fontFamily: newTheme.Bold,
-    fontSize: 30,
+    fontSize: hp(4.5),
     color: 'black',
     alignSelf: 'center',
-    marginTop:'40%'
+    marginTop:hp(17)
     
   },
   ViewTitle: {
     justifyContent: 'center',
     alignItems: 'center',
-    // flex: 0.7,/
+    
   },
   BottomLogo: {
-    height: '60.5%',
-    width: '85.5%',
+    height: hp(35),
+    width: wp(67),
     flexDirection: 'column-reverse',
-    bottom:'11%'
+    // bottom:'11%'
+    marginTop:hp(13),
+    
   },
   Bottom: {
     marginVertical: '20%',
-    marginLeft: 90,
+    marginLeft: wp(22),
   },
 });

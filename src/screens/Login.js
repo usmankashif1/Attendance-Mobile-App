@@ -12,6 +12,9 @@ import CustomButton from '../components/CustomButton';
 import newTheme from '../utils/Constants';
 import {useNavigation} from '@react-navigation/native';
 import Design from '../utils/Design';
+import '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
+import firebase from '../../firebaseConfig';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -42,13 +45,22 @@ const Login = () => {
       }
 
       if (email !== '' && Password !== '') {
-        navigation.navigate('BottomNavigation');
-      
-    }}
+        LoginUser();
+      }
+    }
   };
 
   const validatePassword = input => {
     setPassword(input);
+  };
+
+  const LoginUser = () => {
+    firebase.auth()
+      .signInWithEmailAndPassword(email, Password)
+      .then(() => {
+        Alert.alert('Successfully Login');
+        navigation.navigate('BottomNavigation');
+      });
   };
 
   const navigation = useNavigation();

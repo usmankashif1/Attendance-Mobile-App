@@ -17,10 +17,10 @@ import Leave from '../screens/Leave';
 const AppNavigation = () => {
   return (
     <NavigationContainer>
-      <StackNavigation />
+      {/* <StackNavigation /> */}
       {/* <SplashScreen/> */}
       {/* <BottomNavigation/> */}
-      {/* <HomeFinal/> */}
+      <HomeFinal/>
       {/* <IconTime/> */}
       {/* <CheckInOut/> */}
       {/* <Profile/> */}

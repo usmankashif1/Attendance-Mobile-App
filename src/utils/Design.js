@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import newTheme from './Constants';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
   container: {
